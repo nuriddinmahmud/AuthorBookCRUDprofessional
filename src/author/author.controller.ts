@@ -1,6 +1,16 @@
 import {
-  Controller, Get, Post, Body, Patch, Param, Delete, Query
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  UseInterceptors,
 } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
+
 import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
@@ -8,6 +18,7 @@ import { ApiTags, ApiQuery } from '@nestjs/swagger';
 
 @ApiTags('Author')
 @Controller('authors')
+@UseInterceptors(CacheInterceptor) // Avtomatik GET requestlarni keshlaydi
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
