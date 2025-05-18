@@ -1,6 +1,15 @@
 import {
-  Controller, Get, Post, Body, Patch, Param, Delete, Query,
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  UseInterceptors,
 } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
@@ -8,6 +17,7 @@ import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Book')
 @Controller('books')
+@UseInterceptors(CacheInterceptor) 
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
@@ -32,7 +42,12 @@ export class BookController {
     @Query('sort') sort?: string,
   ) {
     return this.bookService.findAll({
-      genre, authorId, published, skip, take, sort,
+      genre,
+      authorId,
+      published,
+      skip,
+      take,
+      sort,
     });
   }
 
